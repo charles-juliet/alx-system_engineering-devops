@@ -1,30 +1,30 @@
 #!/usr/bin/python3
-""" Script that uses JSONPlaceholder API to get information about employee """
+'''A script that gathers data from an API and exports it to a JSON file.
+'''
 import json
 import requests
-import sys
 
 
-if __name__ == "__main__":
-    url = 'https://jsonplaceholder.typicode.com/'
-    user = '{}users'.format(url)
-    res = requests.get(user)
-    json_o = res.json()
-    d_task = {}
-    for user in json_o:
-        name = user.get('username')
-        userid = user.get('id')
-        todos = '{}todos?userId={}'.format(url, userid)
-        res = requests.get(todos)
-        tasks = res.json()
-        l_task = []
-        for task in tasks:
-            dict_task = {"username": name,
-                         "task": task.get('title'),
-                         "completed": task.get('completed')}
-            l_task.append(dict_task)
+API_URL = 'https://jsonplaceholder.typicode.com'
+'''The API's URL.'''
 
-        d_task[str(userid)] = l_task
-    filename = 'todo_all_employees.json'
-    with open(filename, mode='w') as f:
-        json.dump(d_task, f)
+
+if __name__ == '__main__':
+    users_res = requests.get('{}/users'.format(API_URL)).json()
+    todos_res = requests.get('{}/todos'.format(API_URL)).json()
+    users_data = {}
+    for user in users_res:
+        id = user.get('id')
+        user_name = user.get('username')
+        todos = list(filter(lambda x: x.get('userId') == id, todos_res))
+        user_data = list(map(
+            lambda x: {
+                'username': user_name,
+                'task': x.get('title'),
+                'completed': x.get('completed')
+            },
+            todos
+        ))
+        users_data['{}'.format(id)] = user_data
+    with open('todo_all_employees.json', 'w') as file:
+        json.dump(users_data, file)
