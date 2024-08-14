@@ -1,26 +1,12 @@
-# Project 0x17. Web stack debugging #3 📚
+# Web Stack Debugging
 
-### 📋 Requirements
-***
-* Files will be interpreted on Ubuntu 14.04 LTS
-* Puppet manifests must pass `puppet-lint` version 2.1.1 without any errors
-* Puppet manifests must run without error
-* Your Puppet manifests first line must be a comment explaining what the Puppet manifest is about
-* Your Puppet manifests files must end with the extension .pp
-* Files will be checked with Puppet v3.4
+This project contains tasks for learning about how to debug web stacks.
 
-### More Info
-***
-#### Install `puppet-lint`
+## Tasks To Complete
 
-```shell
-apt-get install -y ruby
-gem install puppet-lint -v 2.1.1
-```
-
-### 🎯 Tasks
-***
-Mandatory:
-| Files | Description |
-| --- | --- |
-| [0-strace_is_your_friend.pp]() | Fix 500 error when a GET HTTP method is requested to Apache web server. |
++ [x] 0. Strace is your friend<br/>_**[0-strace_is_your_friend.pp](0-strace_is_your_friend.pp)**_ contains a Puppet manifest that fixes a faulty server.
+  + **Info**:
+    + Using `strace`, find out why Apache is returning a 500 error. Once you find the issue, fix it and then automate it using Puppet (instead of using Bash as you were previously doing).
+  + **HINT:**
+    + `strace` can attach to a current running process.
+    + You can use [tmux](https://www.hamvocke.com/blog/a-quick-and-easy-guide-to-tmux/) to run [strace](https://strace.io/) in one window and `curl` in another one.

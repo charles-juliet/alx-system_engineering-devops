@@ -1,6 +1,6 @@
-# fixes Apache 500 error by fixing typo in wordpress
-exec { 'fix typo':
-  onlyif  => 'test -e /var/www/html/wp-settings.php',
-  command => "sed -i 's/phpp/php/' /var/www/html/wp-settings.php",
-  path    => '/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin',
+# Fixes a faulty wordpress site
+exec { 'fix-wordpress':
+  command => 'bash -c "sed -i s/class-wp-locale.phpp/class-wp-locale.php/ \
+/var/www/html/wp-settings.php; service apache2 restart"',
+  path    => '/usr/bin:/usr/sbin:/bin'
 }
